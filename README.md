@@ -6,7 +6,7 @@ with special support for Swagger to remove some of the technicalities required t
 A quick example for the Petstore API at http://petstore.swagger.io, testing of the 
 /pet/findByTags resource could be defined withe following Scenario:
 
-```
+```gherkin
   Scenario: Find pet by tags
     Given the API running at http://petstore.swagger.io/v2
     When a GET request to /pet/findByTags is made
@@ -18,7 +18,7 @@ A quick example for the Petstore API at http://petstore.swagger.io, testing of t
 
 Using the integrated Swagger support this can be shortened to
 
-```
+```gherkin
   Scenario: Find pet by tags
     Given the Swagger definition at http://petstore.swagger.io/v2/swagger.json
     # deducts path and method from Swagger definition by operationId
