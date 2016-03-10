@@ -39,12 +39,12 @@ If you want to run scenarios as part of a maven build you need to add the follow
 dependency to your pom:
 
 ```
-<dependency>
-    <groupId>com.smartbear.readyapi.testserver.cucumber</groupId>
-    <artifactId>testserver-cucumber-core</artifactId>
-    <version>1.0.0</version>
-    <scope>test</scope>
-</dependency>
+&lt;dependency&gt;
+    &lt;groupId&gt;com.smartbear.readyapi.testserver.cucumber&lt;/groupId&gt;
+    &lt;artifactId&gt;testserver-cucumber-core&lt;/artifactId&gt;
+    &lt;version&gt;1.0.0&lt;/version&gt;
+    &lt;scope&gt;test&lt;/scope&gt;
+&lt;/dependency&gt;
 ```
 
 Then create a JUnit runner class that uses Cucumber and point it to your feature files:
@@ -67,7 +67,7 @@ testserver-cucumber-all jar file which includes all required libraries including
 runtime. Run tests with:
 
 ```
-java -jar testserver-cucumber-all-1.0.0.jar <path to feature-files>
+java -jar testserver-cucumber-all-1.0.0.jar &lt;path to feature-files&gt;
 ```
 
 Internally this will call the regular cucumber.api.cli.Main class with an added -g argument to the
@@ -106,6 +106,43 @@ To build and install it in your local maven repository.
  
 The included glue-code for API testing adds the following vocabulary:
 
-...
+### Given statements:
 
+- "the Swagger definition at &lt;swagger endpoint&gt;"
+    - must be a valid Swagger 2.0 definition
+- "the API running at &lt;API endpoint&gt;"
 
+### When/And statements:
+
+- "a &lt;HTTP Method&gt; request to &lt;path&gt; is made"
+- "a request to &lt;Swagger OperationID&gt; is made"
+    - will fail if no Swagger definition has been Given
+
+- "the request body is" &lt;text block&gt;
+- "the &lt;parameter name&gt; parameter is &lt;parameter value&gt;"
+    - adds the specified parameter as a query parameter
+- "the &lt;http header&gt; is &lt;header value&gt;
+- "the type is &lt;content-type&gt;
+    - single word types will be expanded to "application/&lt;content-type&gt;"
+
+- "&lt;parameter name&gt; is &lt;parameter value&gt;"
+    - if a valid OperationId has been given the type of parameter will be deduced from its list of parameters
+    - if no OperationId has been given this will be added to a map of values that will be sent as the request body
+- "&lt;the request expects &lt;content-type&gt;"
+    - adds an Accept header
+
+### Then/And statements:
+
+- "a &lt;HTTP Status code&gt; response is returned"
+- "a &lt;HTTP Status code&gt; response is returned within &lt;number&gt;ms"
+- "the response is &lt;a valid Swagger Response description for the specified operationId&gt;"
+- "the response body contains" &lt;text block&gt;
+- "the response body matches" &lt;regex text block&gt;
+- "the response type is &lt;content-type&gt;"
+- "the response contains a &lt;http-header name&gt; header"
+- "the response &lt;http header name&gt; is &lt;http header value&gt;"
+- "the response body contains &lt;text token&gt;"
+
+## Contribute!
+
+If you're missing something please contribute or open an issue!
