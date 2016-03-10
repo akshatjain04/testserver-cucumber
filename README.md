@@ -1,7 +1,7 @@
 ## Ready! API TestServer Cucumber Integration
 
 This project provides a generic Cucumber vocabulary for testing APIs with the Ready! API TestServer,
-with special support for Swagger to remove some of the technicalities requres to define scenarios. 
+with special support for Swagger to remove some of the technicalities required to define scenarios. 
 
 A quick example for the Petstore API at http://petstore.swagger.io, testing of the 
 /pet/findByTags resource could be defined withe following Scenario:
