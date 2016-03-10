@@ -108,41 +108,89 @@ The included glue-code for API testing adds the following vocabulary:
 
 ### Given statements
 
-- the Swagger definition at &lt;swagger endpoint&gt;
+- "the Swagger definition at &lt;swagger endpoint&gt;"
     - The specified endpoint must reference a valid Swagger 2.0 definition
+    - Example: "the Swagger definition at http://petstore.swagger.io/v2/swagger.json"
 
-- the API running at &lt;API endpoint&gt;
+- "the API running at &lt;API endpoint&gt;"
+    - Example: "the API running at http://petstore.swagger.io/v2"
 
 ### When/And statements
 
 - "a &lt;HTTP Method&gt; request to &lt;path&gt; is made"
+    - Example: "a GET request to /test/search is made"
+    
 - "a request to &lt;Swagger OperationID&gt; is made"
     - will fail if no Swagger definition has been Given
+    - Example: "a request to findPetById is made"
 
 - "the request body is" &lt;text block&gt;
+    - Example: "the request body is
+    ```
+    """
+    { "id" : "123" }
+    """
+    ```"
+    
 - "the &lt;parameter name&gt; parameter is &lt;parameter value&gt;"
     - adds the specified parameter as a query parameter
+    - Example: "the query parameter is miles davis"
+    
 - "the &lt;http header&gt; is &lt;header value&gt;
+    - Example: "the Encoding header is UTF-8"
+    
 - "the type is &lt;content-type&gt;
     - single word types will be expanded to "application/&lt;content-type&gt;"
+    - Example: "the type is json"
 
 - "&lt;parameter name&gt; is &lt;parameter value&gt;"
     - if a valid OperationId has been given the type of parameter will be deduced from its list of parameters
     - if no OperationId has been given this will be added to a map of values that will be sent as the request body
+    - Example: "name is John"
+    
 - "&lt;the request expects &lt;content-type&gt;"
     - adds an Accept header
+    - Example "the request expects yaml"
 
 ### Then/And statements:
 
 - "a &lt;HTTP Status code&gt; response is returned"
+    - Example: "a 200 response is returned"
+    
 - "a &lt;HTTP Status code&gt; response is returned within &lt;number&gt;ms"
+    - Example: "a 404 response is returned within 10ms"
+
 - "the response is &lt;a valid Swagger Response description for the specified operationId&gt;"
+    - Requires that a valid OperationId has been Given
+    - Example: "the response is a list of people"
+
 - "the response body contains" &lt;text block&gt;
+    - Example: "the response body contains
+    ```
+    """
+    "id" : "123"
+    """
+    ```"
+
 - "the response body matches" &lt;regex text block&gt;
+    - Example: "the response body matches
+    ```
+    """
+    .*testing.*
+    """
+    ```"
+
 - "the response type is &lt;content-type&gt;"
+    - Example: "the response type is application/yaml"
+
 - "the response contains a &lt;http-header name&gt; header"
+    - Example: "the response contains a Cache-Control header"
+
 - "the response &lt;http header name&gt; is &lt;http header value&gt;"
+    - Example: "the response Cache-Control header is None"
+
 - "the response body contains &lt;text token&gt;"
+    - Example: "the response body contains Testing text"
 
 ## Contribute!
 
