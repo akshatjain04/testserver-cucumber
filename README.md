@@ -108,7 +108,7 @@ To build and install it in your local maven repository.
  
 The included glue-code for API testing adds the following vocabulary:
 
-#### Given statements
+##### Given statements
 
 - "the Swagger definition at &lt;swagger endpoint&gt;"
     - The specified endpoint must reference a valid Swagger 2.0 definition
@@ -117,7 +117,7 @@ The included glue-code for API testing adds the following vocabulary:
 - "the API running at &lt;API endpoint&gt;"
     - Example: "the API running at http://petstore.swagger.io/v2"
 
-#### When/And statements
+##### When/And statements
 
 - "a &lt;HTTP Method&gt; request to &lt;path&gt; is made"
     - Example: "a GET request to /test/search is made"
@@ -154,7 +154,7 @@ The included glue-code for API testing adds the following vocabulary:
     - adds an Accept header
     - Example "the request expects yaml"
 
-#### Then/And statements:
+##### Then/And statements:
 
 - "a &lt;HTTP Status code&gt; response is returned"
     - Example: "a 200 response is returned"
