@@ -63,7 +63,8 @@ public class CucumberTest {
 ### Usage without maven
 
 If you're not running java or simply want to run cucumber tests from the command-line you can use the 
-testserver-cucumber-all dependency; add it to your classpath and run the contained Cucumber CLI:
+testserver-cucumber-all jar file which includes all required libraries including the Cucumber
+runtime. Run tests with:
 
 ```
 java -jar testserver-cucumber-all-1.0.0.jar <path to feature-files>
@@ -71,6 +72,8 @@ java -jar testserver-cucumber-all-1.0.0.jar <path to feature-files>
 
 Internally this will call the regular cucumber.api.cli.Main class with an added -g argument to the
 included glue-code, all other options are passed as usual, see https://cucumber.io/docs/reference/jvm#cli-runner
+
+(you will need java8 installed on your path)
 
 ### Configuring Ready! API TestServer access
  
