@@ -1,6 +1,6 @@
 ## Ready! API TestServer Cucumber Integration
 
-This project provides a generic Cucumber vocabulary for testing APIs with the Ready!API TestServer,
+This project provides a generic Cucumber vocabulary for testing APIs with the Ready! API TestServer,
 with special support for Swagger to remove some of the technicalities requres to define scenarios. 
 
 A quick example for the Petstore API at http://petstore.swagger.io, testing of the 
@@ -83,20 +83,18 @@ to download and install the TestServer from ... and configure access to it by sp
 - testserver.user=<the configured user to use>
 - testserver.password=<the configured password for that user>
 
+### Building 
 
+Clone this project and and run
+ 
+```
+mvn clean install 
+```
 
+To build and install it in your local maven repository.
 
-
-
-
-
-
-
-### Usage
-
-All you need is to add the following dependency to your classpath or maven project
-
-
-
+## API Testing Vocabulary
+ 
+The included glue-code for API testing adds the following vocabular:
 
 
