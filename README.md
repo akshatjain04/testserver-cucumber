@@ -1,4 +1,4 @@
-## Ready! API TestServer Cucumber Integration
+## Cucumber/BDD testing for REST APIs 
 
 This project provides a generic Cucumber vocabulary for testing APIs with the Ready! API TestServer,
 with special support for Swagger to remove some of the technicalities required to define scenarios. 
