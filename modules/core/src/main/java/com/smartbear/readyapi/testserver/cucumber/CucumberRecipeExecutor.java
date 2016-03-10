@@ -11,22 +11,28 @@ import com.smartbear.readyapi.client.model.RestTestRequestStep;
 import com.smartbear.readyapi.client.model.TestCase;
 import com.smartbear.readyapi.client.model.TestStep;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class CucumberRecipeExecutor extends RecipeExecutor {
+public class CucumberRecipeExecutor {
 
     private RestTestRequestStep testStep;
+    private RecipeExecutor executor;
 
-    public CucumberRecipeExecutor() {
-        super(Scheme.HTTP, "testserver.readyapi.io", 8080 );
+    public CucumberRecipeExecutor() throws MalformedURLException {
+        URL url = new URL( System.getProperty( "testserver.endpoint", "http://testserver.readyapi.io:8080" ));
+
+        executor = new RecipeExecutor( Scheme.valueOf(url.getProtocol().toUpperCase()),
+            url.getHost(), url.getPort());
 
         String user = System.getProperty( "testserver.user", "demoUser" );
         String password = System.getProperty( "testserver.password", "demoPassword" );
 
-        setCredentials( user, password );
+        executor.setCredentials( user, password );
     }
 
     public void runTestCase() {
@@ -40,7 +46,7 @@ public class CucumberRecipeExecutor extends RecipeExecutor {
             testStep = null;
 
             TestRecipe recipe = new TestRecipe(testCase);
-            Execution execution = executeRecipe(recipe);
+            Execution execution = executor.executeRecipe(recipe);
 
             assertEquals(Arrays.toString(execution.getErrorMessages().toArray()),
                 ProjectResultReport.StatusEnum.FINISHED, execution.getCurrentStatus());
