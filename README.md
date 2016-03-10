@@ -39,12 +39,12 @@ If you want to run scenarios as part of a maven build you need to add the follow
 dependency to your pom:
 
 ```
-&lt;dependency&gt;
-    &lt;groupId&gt;com.smartbear.readyapi.testserver.cucumber&lt;/groupId&gt;
-    &lt;artifactId&gt;testserver-cucumber-core&lt;/artifactId&gt;
-    &lt;version&gt;1.0.0&lt;/version&gt;
-    &lt;scope&gt;test&lt;/scope&gt;
-&lt;/dependency&gt;
+<dependency>
+    <groupId>com.smartbear.readyapi.testserver.cucumber</groupId>
+    <artifactId>testserver-cucumber-core</artifactId>
+    <version>1.0.0</version>
+    <scope>test</scope>
+</dependency>
 ```
 
 Then create a JUnit runner class that uses Cucumber and point it to your feature files:
@@ -67,7 +67,7 @@ testserver-cucumber-all jar file which includes all required libraries including
 runtime. Run tests with:
 
 ```
-java -jar testserver-cucumber-all-1.0.0.jar &lt;path to feature-files&gt;
+java -jar testserver-cucumber-all-1.0.0.jar <path to feature-files>
 ```
 
 Internally this will call the regular cucumber.api.cli.Main class with an added -g argument to the
@@ -108,10 +108,10 @@ The included glue-code for API testing adds the following vocabulary:
 
 ### Given statements
 
-#### the Swagger definition at &lt;swagger endpoint&gt;
-The specified endpoint must reference a valid Swagger 2.0 definition
+- the Swagger definition at &lt;swagger endpoint&gt;
+    - The specified endpoint must reference a valid Swagger 2.0 definition
 
-##### the API running at &lt;API endpoint&gt;
+- the API running at &lt;API endpoint&gt;
 
 ### When/And statements
 
