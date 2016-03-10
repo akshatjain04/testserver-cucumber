@@ -35,7 +35,7 @@ technicalities; read more about Swagger specific steps and vendor extensions bel
 
 Check out the [samples](modules/samples) submodule for more examples.
 
-### Usage with maven
+### Usage with maven/junit
 
 If you want to run scenarios as part of a maven build you need to add the following 
 dependency to your pom:
