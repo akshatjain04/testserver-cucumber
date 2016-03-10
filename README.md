@@ -62,10 +62,10 @@ public class CucumberTest {
 
 (see the included samples module for a working project)
 
-### Usage without maven
+### Running from the command-line
 
-If you're not running java or simply want to run cucumber tests from the command-line you can use the 
-testserver-cucumber-all jar file which includes all required libraries including the Cucumber
+If you don't want to run your tests as part of a java/maven/etc-build or simply want to run them from the command-line you 
+can use the testserver-cucumber-all jar file which includes all required libraries including the Cucumber
 runtime. Run tests with:
 
 ```
