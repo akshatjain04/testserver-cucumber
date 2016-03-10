@@ -33,6 +33,8 @@ Using the integrated Swagger support this can be shortened to
 Not a huge difference - but as you can see by the comments the Swagger support removes some of the 
 technicalities; read more about Swagger specific steps and vendor extensions below!
 
+Check out the [samples](modules/samples) submodule for more examples.
+
 ### Usage with maven
 
 If you want to run scenarios as part of a maven build you need to add the following 
