@@ -101,6 +101,8 @@ To build and install it in your local maven repository.
 
 ## API Testing Vocabulary
  
-The included glue-code for API testing adds the following vocabular:
+The included glue-code for API testing adds the following vocabulary:
+
+...
 
 
