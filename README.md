@@ -106,13 +106,14 @@ To build and install it in your local maven repository.
  
 The included glue-code for API testing adds the following vocabulary:
 
-### Given statements:
+### Given statements
 
-- "the Swagger definition at &lt;swagger endpoint&gt;"
-    - must be a valid Swagger 2.0 definition
-- "the API running at &lt;API endpoint&gt;"
+#### the Swagger definition at &lt;swagger endpoint&gt;
+The specified endpoint must reference a valid Swagger 2.0 definition
 
-### When/And statements:
+##### the API running at &lt;API endpoint&gt;
+
+### When/And statements
 
 - "a &lt;HTTP Method&gt; request to &lt;path&gt; is made"
 - "a request to &lt;Swagger OperationID&gt; is made"
