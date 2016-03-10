@@ -43,7 +43,7 @@ dependency to your pom:
 ```xml
 <dependency>
     <groupId>com.smartbear.readyapi.testserver.cucumber</groupId>
-    <artifactId>testserver-cucumber-core</artifactId>
+    <artifactId>testserver-cucumber-stepdefs</artifactId>
     <version>1.0.0</version>
     <scope>test</scope>
 </dependency>
