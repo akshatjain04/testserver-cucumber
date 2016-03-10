@@ -74,14 +74,20 @@ included glue-code, all other options are passed as usual, see https://cucumber.
 
 ### Configuring Ready! API TestServer access
  
-The included (Cucumber StepDefs)[https://github.com/olensmar/testserver-cucumber/blob/master/modules/core/src/main/java/com/smartbear/readyapi/testserver/cucumber/GenericRestStepDefs.java] build and execute test recipes agains the Ready! API TestServer using the 
-(testserver-java-client)[https://github.com/SmartBear/ready-api-testserver-client], by default they will submit recipes to the publically available TestServer at
-http://testserver.readyapi.io. If you want to run against your own TestServer instance to be able to 
-use some of the advanced features (DataSources, etc) or not run into throttling issues you need
-to download and install the TestServer from https://smartbear.com/product/ready-api/testserver/overview/ and configure access to it by specifying the corresponding system properties when running your tests:
-- testserver.endpoint=<url to your testserver installation>
-- testserver.user=<the configured user to use>
-- testserver.password=<the configured password for that user>
+The included [Cucumber StepDefs](https://github.com/olensmar/testserver-cucumber/blob/master/modules/core/src/main/java/com/smartbear/readyapi/testserver/cucumber/GenericRestStepDefs.java) 
+build and execute test recipes agains the Ready! API TestServer using the 
+[testserver-java-client](https://github.com/SmartBear/ready-api-testserver-client), by default they 
+will submit recipes to the publically available TestServer at http://testserver.readyapi.io. If you 
+want to run against your own TestServer instance to be able to use some of the advanced features 
+(DataSources, etc) or not run into throttling issues you need to download and install the TestServer 
+from https://smartbear.com/product/ready-api/testserver/overview/ and configure access to it by 
+specifying the corresponding system properties when running your tests:
+
+- testserver.endpoint=...url to your testserver installation...
+- testserver.user=...the configured user to use...
+- testserver.password=...the configured password for that user...
+
+(these are picked up by [CucumberRecipeExecutor](https://github.com/olensmar/testserver-cucumber/blob/master/modules/core/src/main/java/com/smartbear/readyapi/testserver/cucumber/CucumberRecipeExecutor.java) during execution)
 
 ### Building 
 
