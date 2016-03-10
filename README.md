@@ -79,7 +79,7 @@ included glue-code, all other options are passed as usual, see https://cucumber.
 
 ### Configuring Ready! API TestServer access
  
-The included [Cucumber StepDefs](https://github.com/olensmar/testserver-cucumber/blob/master/modules/core/src/main/java/com/smartbear/readyapi/testserver/cucumber/GenericRestStepDefs.java) 
+The included [Cucumber StepDefs](modules/core/src/main/java/com/smartbear/readyapi/testserver/cucumber/GenericRestStepDefs.java) 
 build and execute test recipes agains the Ready! API TestServer using the 
 [testserver-java-client](https://github.com/SmartBear/ready-api-testserver-client), by default they 
 will submit recipes to the publicly available TestServer at http://testserver.readyapi.io. If you 
@@ -92,7 +92,7 @@ specifying the corresponding system properties when running your tests:
 - testserver.user=...the configured user to use...
 - testserver.password=...the configured password for that user...
 
-(these are picked up by [CucumberRecipeExecutor](https://github.com/olensmar/testserver-cucumber/blob/master/modules/core/src/main/java/com/smartbear/readyapi/testserver/cucumber/CucumberRecipeExecutor.java) during execution)
+(these are picked up by [CucumberRecipeExecutor](modules/core/src/main/java/com/smartbear/readyapi/testserver/cucumber/CucumberRecipeExecutor.java) during execution)
 
 ### Building 
 
@@ -196,7 +196,8 @@ The included glue-code for API testing adds the following vocabulary:
 
 ### Larger Example:
 
-This is taken directly from the samples submodule (https://github.com/olensmar/testserver-cucumber/blob/master/modules/samples/src/test/resources/cucumber/swaggerhub.feature):
+Below is the [swaggerhub.feature](modules/samples/src/test/resources/cucumber/swaggerhub.feature) in the 
+[samples](modules/samples) submodule.
 
 ```gherkin
 Feature: SwaggerHub REST API
