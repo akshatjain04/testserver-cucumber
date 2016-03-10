@@ -79,7 +79,7 @@ included glue-code, all other options are passed as usual, see https://cucumber.
 
 ### Configuring Ready! API TestServer access
  
-The included [Cucumber StepDefs](modules/core/src/main/java/com/smartbear/readyapi/testserver/cucumber/GenericRestStepDefs.java) 
+The included [Cucumber StepDefs](modules/stepdefs/src/main/java/com/smartbear/readyapi/testserver/cucumber/GenericRestStepDefs.java) 
 build and execute test recipes agains the Ready! API TestServer using the 
 [testserver-java-client](https://github.com/SmartBear/ready-api-testserver-client), by default they 
 will submit recipes to the publicly available TestServer at http://testserver.readyapi.io. If you 
@@ -102,7 +102,8 @@ Clone this project and and run
 mvn clean install 
 ```
 
-To build and install it in your local maven repository.
+To build and install the artefacts in your local maven repository - the packaged jar is created in the root
+target folder.
 
 ## API Testing Vocabulary
  

@@ -10,6 +10,7 @@
 
     <modules>
         <module>modules/core</module>
+        <module>modules/stepdefs</module>
         <module>modules/samples</module>
     </modules>
 
