@@ -38,7 +38,7 @@ technicalities; read more about Swagger specific steps and vendor extensions bel
 If you want to run scenarios as part of a maven build you need to add the following 
 dependency to your pom:
 
-```
+```xml
 <dependency>
     <groupId>com.smartbear.readyapi.testserver.cucumber</groupId>
     <artifactId>testserver-cucumber-core</artifactId>
