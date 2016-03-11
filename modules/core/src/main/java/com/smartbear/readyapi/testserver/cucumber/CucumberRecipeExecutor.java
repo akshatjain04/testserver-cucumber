@@ -10,7 +10,10 @@ import com.smartbear.readyapi.client.model.ProjectResultReport;
 import com.smartbear.readyapi.client.model.RestTestRequestStep;
 import com.smartbear.readyapi.client.model.TestCase;
 import com.smartbear.readyapi.client.model.TestStep;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.Console;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
@@ -19,6 +22,8 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class CucumberRecipeExecutor {
+
+    private final static Logger LOG = LoggerFactory.getLogger( CucumberRecipeExecutor.class );
 
     private RestTestRequestStep testStep;
     private RecipeExecutor executor;
@@ -46,6 +51,11 @@ public class CucumberRecipeExecutor {
             testStep = null;
 
             TestRecipe recipe = new TestRecipe(testCase);
+
+            if( System.getProperty("testserver.debug") != null ){
+                LOG.debug( recipe.toString());
+            }
+
             Execution execution = executor.executeRecipe(recipe);
 
             assertEquals(Arrays.toString(execution.getErrorMessages().toArray()),
