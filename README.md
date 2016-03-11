@@ -32,7 +32,7 @@ Using the integrated Swagger support this can be shortened to
 ```
 
 Not a huge difference - but as you can see by the comments the Swagger support removes some of the 
-technicalities; read more about Swagger specific steps and vendor extensions below!
+technicalities; read more about Swagger specific steps below!
 
 Check out the [samples](modules/samples) submodule for more examples.
 
@@ -243,6 +243,7 @@ Feature: SwaggerHub REST API
     | fehguy      | sonos-api    | 1.0.0    | A REST API for the Sonos platform |
 ```
 
-## Contribute!
+## What's next?
 
-If you're missing something please contribute or open an issue!
+This project is just getting started - if you're missing some kind of vocabulary/functionality/etc 
+please contribute or open an issue!
