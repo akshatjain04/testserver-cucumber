@@ -3,7 +3,7 @@
 
     <groupId>com.smartbear.readyapi.testserver.cucumber</groupId>
     <artifactId>testserver-cucumber</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
 
     <packaging>pom</packaging>
 
@@ -23,7 +23,7 @@
         <connection>scm:git:ssh://git@github.com/olensmar/testserver-cucumber.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/olensmar/testserver-cucumber.git
         </developerConnection>
-      <tag>testserver-cucumber-1.0.0</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <issueManagement>

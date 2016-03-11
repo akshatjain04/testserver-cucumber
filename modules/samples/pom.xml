@@ -4,18 +4,18 @@
     <parent>
         <groupId>com.smartbear.readyapi.testserver.cucumber</groupId>
         <artifactId>testserver-cucumber</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1-SNAPSHOT</version>
         <relativePath>../..</relativePath>
     </parent>
 
     <artifactId>testserver-cucumber-samples</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
             <groupId>com.smartbear.readyapi.testserver.cucumber</groupId>
             <artifactId>testserver-cucumber-stepdefs</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.1-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

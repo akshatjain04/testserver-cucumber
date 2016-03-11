@@ -4,21 +4,21 @@
     <parent>
         <groupId>com.smartbear.readyapi.testserver.cucumber</groupId>
         <artifactId>testserver-cucumber</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1-SNAPSHOT</version>
         <relativePath>../..</relativePath>
     </parent>
 
     <description>the actual Cucumber API StepDefs</description>
 
     <artifactId>testserver-cucumber-stepdefs</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
             <groupId>com.smartbear.readyapi.testserver.cucumber</groupId>
             <artifactId>testserver-cucumber-core</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
