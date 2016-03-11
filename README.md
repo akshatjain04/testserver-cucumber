@@ -245,5 +245,5 @@ Feature: SwaggerHub REST API
 
 ## What's next?
 
-This project is just getting started - if you're missing some kind of vocabulary/functionality/etc 
-please contribute or open an issue!
+If you've found a bug or are missing some kind of vocabulary/functionality/etc please contribute or 
+open an issue!
