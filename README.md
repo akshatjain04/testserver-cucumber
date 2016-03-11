@@ -1,4 +1,4 @@
-## Cucumber/BDD testing for APIs using Ready! API TestServer
+## Cucumber/BDD testing for REST APIs
 
 This project provides a generic Cucumber vocabulary for testing APIs with the 
 [Ready! API TestServer](http://testserver.readyapi.io),
