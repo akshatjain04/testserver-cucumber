@@ -242,7 +242,6 @@ Feature: SwaggerHub REST API
     | fehguy      | sonos-api    | 1.0.0    | A REST API for the Sonos platform |
 ```
 
-
 ## Contribute!
 
 If you're missing something please contribute or open an issue!
