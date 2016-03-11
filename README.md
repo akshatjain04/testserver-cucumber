@@ -65,11 +65,11 @@ public class CucumberTest {
 ### Running from the command-line
 
 If you don't want to run your tests as part of a java/maven/etc-build or simply want to run them from the command-line you 
-can use the testserver-cucumber-all jar file which includes all required libraries including the Cucumber
+can use the testserver-cucumber-runner jar file which includes all required libraries including the Cucumber
 runtime. Run tests with:
 
 ```
-java -jar testserver-cucumber-all-1.0.0.jar <path to feature-files>
+java -jar testserver-cucumber-runner-1.0.0.jar <path to feature-files>
 ```
 
 Internally this will call the regular cucumber.api.cli.Main class with an added -g argument to the
