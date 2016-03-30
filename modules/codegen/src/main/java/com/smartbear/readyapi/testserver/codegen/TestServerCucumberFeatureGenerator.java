@@ -57,6 +57,16 @@ public class TestServerCucumberFeatureGenerator extends DefaultCodegen implement
     }
 
     @Override
+    public String toApiName(String name) {
+        return super.toApiName(name == null ? "" : name );
+    }
+
+    @Override
+    public String snakeCase(String name) {
+        return super.snakeCase(name == null ? "" : name);
+    }
+
+    @Override
     public void preprocessSwagger(Swagger swagger) {
         super.preprocessSwagger(swagger);
     }
