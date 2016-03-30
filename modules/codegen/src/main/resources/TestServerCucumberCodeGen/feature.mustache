@@ -6,6 +6,6 @@ Background:
   Scenario: {{description}}
     When a request to {{operationId}} is made
     {{#allParams}}And {{baseName}} is {{defaultValue}}
-    {{/allParams}}Then a {{code}} Response is returned
+    {{/allParams}}Then a {{code}} response is returned
 {{/responses}}
 {{/operation}}{{/operations}}
