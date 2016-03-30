@@ -62,4 +62,56 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>docker</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <version>0.14.2</version>
+                        <configuration>
+                            <verbose>true</verbose>
+                            <images>
+                                <image>
+                                    <alias>testserver-cucumber</alias>
+                                    <name>smartbear/cucumber4apis:latest</name>
+                                    <build>
+                                        <from>java:8-jre</from>
+                                        <maintainer>ole.lensmar@smartbear.com</maintainer>
+                                        <tags>
+                                            <tag>latest</tag>
+                                        </tags>
+                                        <assembly>
+                                            <basedir>/maven</basedir>
+                                            <descriptor>/src/docker/resources/assembly.xml</descriptor>
+                                        </assembly>
+                                        <volumes>
+                                            <volume>/cucumber</volume>
+                                        </volumes>
+                                        <entryPoint>
+                                            <exec>
+                                                <args>/maven/entry-point.sh</args>
+                                            </exec>
+                                        </entryPoint>
+                                    </build>
+                                </image>
+                            </images>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>package</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

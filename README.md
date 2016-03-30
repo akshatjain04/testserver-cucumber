@@ -78,6 +78,13 @@ included glue-code, all other options are passed as usual, see https://cucumber.
 
 (you will need java8 installed on your path)
 
+### Running with Docker
+
+If the above two options are too much of a java-hassle for you, then you can use the corresponding docker image 
+available at https://hub.docker.com/r/smartbear/cucumber4apis instead - it packages the above runner and makes it
+super-easy to run feature files for your APIs. 
+
+
 ### Configuring Ready! API TestServer access
  
 The included [Cucumber StepDefs](modules/stepdefs/src/main/java/com/smartbear/readyapi/testserver/cucumber/GenericRestStepDefs.java) 
