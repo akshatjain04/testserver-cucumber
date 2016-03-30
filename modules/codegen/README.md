@@ -16,7 +16,7 @@ Then you're all set to use it with
 ```
 java -cp target/testserver-cucumber-codegen-1.0.0.jar:<path to swagger-codegen-cli.jar> 
     io.swagger.codegen.SwaggerCodegen generate -l TestServerCucumberCodegen 
-    -i <url/path to Swagger definition> -o output
+    -i <url/path to Swagger definition> 
 ```
 
 which will generate one feature file for each operation in the specified Swagger Definition. By default

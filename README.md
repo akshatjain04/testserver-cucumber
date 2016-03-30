@@ -119,6 +119,11 @@ The included glue-code for API testing adds the following vocabulary:
 - "the API running at &lt;API endpoint&gt;"
     - Example: "the API running at http://petstore.swagger.io/v2"
 
+- "the oAuth2 token &lt;token&gt;"
+    - Example: "the oAuth2 token 18273827aefef123"
+    - Adds an OAuth 2.0 Bearer token to requests
+
+
 ##### When/And statements
 
 - "a &lt;HTTP Method&gt; request to &lt;path&gt; is made"
@@ -151,6 +156,7 @@ The included glue-code for API testing adds the following vocabulary:
     - if a valid OperationId has been given the type of parameter will be deduced from its list of parameters
     - if no OperationId has been given this will be added to a map of values that will be sent as the request body
     - Example: "name is John"
+    - will work for both inline or multi-line values
     
 - "&lt;the request expects &lt;content-type&gt;"
     - adds an Accept header
