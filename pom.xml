@@ -45,6 +45,7 @@
         <module>modules/runner</module>
         <module>modules/codegen</module>
         <module>modules/samples</module>
+        <module>modules/docker</module>
     </modules>
 
     <build>
