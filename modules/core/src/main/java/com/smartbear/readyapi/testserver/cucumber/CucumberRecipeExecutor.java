@@ -18,24 +18,33 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
 public class CucumberRecipeExecutor {
 
     private final static Logger LOG = LoggerFactory.getLogger( CucumberRecipeExecutor.class );
+    private static final String TESTSERVER_ENDPOINT = "testserver.endpoint";
+    private static final String TESTSERVER_USER = "testserver.user";
+    private static final String TESTSERVER_PASSWORD = "testserver.password";
 
     private RestTestRequestStep testStep;
     private RecipeExecutor executor;
 
     public CucumberRecipeExecutor() throws MalformedURLException {
-        URL url = new URL( System.getProperty( "testserver.endpoint", "http://testserver.readyapi.io:8080" ));
+        Map<String, String> env = System.getenv();
+        URL url = new URL( env.containsKey(TESTSERVER_ENDPOINT) ? env.get(TESTSERVER_ENDPOINT) :
+            System.getProperty(TESTSERVER_ENDPOINT, "http://testserver.readyapi.io:8080" ));
 
         executor = new RecipeExecutor( Scheme.valueOf(url.getProtocol().toUpperCase()),
             url.getHost(), url.getPort());
 
-        String user = System.getProperty( "testserver.user", "demoUser" );
-        String password = System.getProperty( "testserver.password", "demoPassword" );
+        String user = env.containsKey(TESTSERVER_USER) ? env.get(TESTSERVER_USER) :
+            System.getProperty(TESTSERVER_USER, "demoUser" );
+
+        String password = env.containsKey(TESTSERVER_PASSWORD) ? env.get(TESTSERVER_PASSWORD) :
+            System.getProperty(TESTSERVER_PASSWORD, "demoPassword" );
 
         executor.setCredentials( user, password );
     }

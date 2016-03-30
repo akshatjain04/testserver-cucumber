@@ -17,10 +17,7 @@ Feature: SwaggerHub REST API
     And owner is swagger-hub
     And api is registry-api
     Then the response is a list of API versions in APIs.json format
-    And the response body contains
-      """
-      "url":"/apis/swagger-hub/registry-api"
-      """
+    And the response body contains /apis/swagger-hub/registry-api
 
   Scenario Outline: API Retrieval
     When a request to getDefinition is made
