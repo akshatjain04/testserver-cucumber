@@ -82,7 +82,14 @@ included glue-code, all other options are passed as usual, see https://cucumber.
 
 If the above two options are too much of a java-hassle for you, then you can use the corresponding docker image 
 available at https://hub.docker.com/r/smartbear/cucumber4apis instead - it packages the above runner and makes it
-super-easy to run feature files for your APIs. 
+super-easy to run feature files for your APIs, for example:
+
+```
+docker run -v /Users/Ole/cucumber:/features smartbear/cucumber4apis -p pretty /features
+```
+
+Here I mounted my local folder containing feature files into a volume named "/features" in the container - and then 
+specify that that volume as the source for feature files for the Cucumber Runner (together with the -p pretty argument).
 
 
 ### Configuring Ready! API TestServer access
