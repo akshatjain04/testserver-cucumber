@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.smartbear.readyapi.client.model.Assertion;
+import com.smartbear.readyapi.client.model.Authentication;
 import com.smartbear.readyapi.client.model.GroovyScriptAssertion;
 import com.smartbear.readyapi.client.model.Parameter;
 import com.smartbear.readyapi.client.model.ResponseSLAAssertion;
@@ -46,6 +47,7 @@ public class GenericRestStepDefs {
     private Map<String, String> bodyValues = Maps.newHashMap();
     private Swagger swagger;
     private Operation swaggerOperation;
+    private String token;
 
     @Inject
     public GenericRestStepDefs(CucumberRecipeExecutor executor, SwaggerCache swaggerCache) {
@@ -65,6 +67,12 @@ public class GenericRestStepDefs {
             }
         }
     }
+
+    @Given("^the oAuth2 token (.*)$")
+    public void theOauth2Token(String token) throws Throwable {
+        this.token = token;
+    }
+
 
     @Given("^the API running at (.*)$")
     public void theAPIRunningAt(String endpoint) throws Throwable {
@@ -108,6 +116,14 @@ public class GenericRestStepDefs {
         testStep.setMethod(method.toUpperCase());
         if (requestBody != null) {
             testStep.setRequestBody(requestBody);
+            testStep.setMediaType("application/json");
+        }
+
+        if( token != null ) {
+            Authentication authentication = new Authentication();
+            authentication.setAccessToken(token);
+            authentication.setType( "OAuth 2.0" );
+            testStep.setAuthentication(authentication);
         }
 
         if (!bodyValues.isEmpty()) {
@@ -213,6 +229,11 @@ public class GenericRestStepDefs {
         }
 
         bodyValues.put(name, value);
+    }
+
+    @And("^([^ ]*) is$")
+    public void parameterIsBlob(String name, String value) throws Throwable {
+       parameterIs(name, value);
     }
 
     @When("^a request to ([^ ]*) is made$")
