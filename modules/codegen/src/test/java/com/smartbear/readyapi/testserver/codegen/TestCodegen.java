@@ -1,6 +1,5 @@
 package com.smartbear.readyapi.testserver.codegen;
 
-import io.swagger.codegen.Codegen;
 import io.swagger.codegen.SwaggerCodegen;
 import org.junit.Test;
 
