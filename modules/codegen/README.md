@@ -30,7 +30,6 @@ For example:
 
 ```
 docker run -v &lt;output folder&gt;:/output smartbear/swagger2cucumber http://petstore.swagger.io/v2/swagger.json
-
 ```
 
 Will generate feature files for each of the operations in the PetStore Swagger definition to the
