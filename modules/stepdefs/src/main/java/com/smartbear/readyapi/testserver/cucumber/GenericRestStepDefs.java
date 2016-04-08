@@ -147,7 +147,7 @@ public class GenericRestStepDefs {
             assertions.add(slaAssertion);
         }
 
-        executor.setTestStep(testStep);
+        executor.addTestStep(testStep);
     }
 
     @And("^the response body contains$")
