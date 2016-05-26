@@ -6,8 +6,8 @@ import com.google.inject.Inject;
 import com.smartbear.readyapi.client.model.Assertion;
 import com.smartbear.readyapi.client.model.Authentication;
 import com.smartbear.readyapi.client.model.GroovyScriptAssertion;
-import com.smartbear.readyapi.client.model.Parameter;
 import com.smartbear.readyapi.client.model.ResponseSLAAssertion;
+import com.smartbear.readyapi.client.model.RestParameter;
 import com.smartbear.readyapi.client.model.RestTestRequestStep;
 import com.smartbear.readyapi.client.model.SimpleContainsAssertion;
 import com.smartbear.readyapi.client.model.ValidHttpStatusCodesAssertion;
@@ -43,7 +43,7 @@ public class GenericRestStepDefs {
     private String requestBody;
     private RestTestRequestStep testStep;
     private List<Assertion> assertions = Lists.newArrayList();
-    private List<Parameter> parameters = Lists.newArrayList();
+    private List<RestParameter> parameters = Lists.newArrayList();
     private Map<String, String> bodyValues = Maps.newHashMap();
     private Swagger swagger;
     private Operation swaggerOperation;
@@ -175,7 +175,7 @@ public class GenericRestStepDefs {
         }
 
         if (!assertions.isEmpty()) {
-            executor.setAssertions(assertions);
+            executor.addAssertions(assertions);
         }
 
         executor.runTestCase();
@@ -193,9 +193,9 @@ public class GenericRestStepDefs {
         parameters.add(createParameter("HEADER", name, value));
     }
 
-    private Parameter createParameter(String type, String name, String value) {
-        Parameter parameter = new Parameter();
-        parameter.setType(type);
+    private RestParameter createParameter(String type, String name, String value) {
+        RestParameter parameter = new RestParameter();
+        parameter.setType(RestParameter.TypeEnum.valueOf(type));
         parameter.setName(name);
         parameter.setValue(value);
 

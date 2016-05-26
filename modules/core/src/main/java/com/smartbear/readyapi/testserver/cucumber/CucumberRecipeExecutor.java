@@ -6,8 +6,8 @@ import com.smartbear.readyapi.client.execution.Execution;
 import com.smartbear.readyapi.client.execution.RecipeExecutor;
 import com.smartbear.readyapi.client.execution.Scheme;
 import com.smartbear.readyapi.client.model.Assertion;
-import com.smartbear.readyapi.client.model.Parameter;
 import com.smartbear.readyapi.client.model.ProjectResultReport;
+import com.smartbear.readyapi.client.model.RestParameter;
 import com.smartbear.readyapi.client.model.RestTestRequestStep;
 import com.smartbear.readyapi.client.model.TestCase;
 import com.smartbear.readyapi.client.model.TestStep;
@@ -56,8 +56,6 @@ public class CucumberRecipeExecutor {
     public Execution runTestCase() {
         if( !testSteps.isEmpty() ) {
 
-            replacePathParameters();
-
             TestCase testCase = new TestCase();
             testCase.setFailTestCaseOnError(true);
             testCase.setTestSteps( testSteps );
@@ -87,20 +85,6 @@ public class CucumberRecipeExecutor {
         return executor;
     }
 
-    private void replacePathParameters() {
-        for( TestStep testStep : testSteps ){
-            if( testStep instanceof RestTestRequestStep ){
-                RestTestRequestStep restTestRequestStep = (RestTestRequestStep) testStep;
-
-                for( Parameter param : restTestRequestStep.getParameters()){
-                    if( param.getType().equalsIgnoreCase("PATH")){
-                        restTestRequestStep.setURI(restTestRequestStep.getURI().replaceFirst( "\\{" + param.getName() + "\\}", param.getValue()));
-                    }
-                }
-            }
-        }
-    }
-
     public <T extends TestStep> T addTestStep(T testStep) {
         testSteps.add(testStep);
         return testStep;
@@ -122,7 +106,7 @@ public class CucumberRecipeExecutor {
         }
     }
 
-    public void setParameters(List<Parameter> parameters) {
+    public void setParameters(List<RestParameter> parameters) {
         TestStep testStep = getLastTestStep();
         if( testStep instanceof  RestTestRequestStep ){
             ((RestTestRequestStep)testStep).setParameters( parameters );
