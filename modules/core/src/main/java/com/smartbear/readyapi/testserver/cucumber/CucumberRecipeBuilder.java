@@ -1,13 +1,9 @@
 package com.smartbear.readyapi.testserver.cucumber;
 
 import com.google.common.collect.Lists;
-import com.smartbear.readyapi.client.model.GroovyScriptAssertion;
-import com.smartbear.readyapi.client.model.ResponseSLAAssertion;
-import com.smartbear.readyapi.client.model.RestParameter;
-import com.smartbear.readyapi.client.model.SimpleContainsAssertion;
 import com.smartbear.readyapi.client.model.TestCase;
 import com.smartbear.readyapi.client.model.TestStep;
-import com.smartbear.readyapi.client.model.ValidHttpStatusCodesAssertion;
+import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.runtime.java.guice.ScenarioScoped;
 
@@ -26,7 +22,7 @@ public class CucumberRecipeBuilder {
     private final TestCase testCase;
 
     @Inject
-    public CucumberRecipeBuilder( CucumberRecipeExecutor executor ) {
+    public CucumberRecipeBuilder(CucumberRecipeExecutor executor) {
         this.executor = executor;
 
         testCase = new TestCase();
@@ -34,17 +30,17 @@ public class CucumberRecipeBuilder {
     }
 
     @After
-    public void run() {
+    public void run(Scenario scenario) {
         testCase.setTestSteps(testSteps);
-        executor.runTestCase( testCase );
+        executor.runTestCase(testCase, scenario);
     }
 
     public TestCase getTestCase() {
         return testCase;
     }
 
-    public void addTestStep(TestStep testStep ){
-        testSteps.add( testStep );
+    public void addTestStep(TestStep testStep) {
+        testSteps.add(testStep);
     }
 
     public CucumberRecipeExecutor getExecutor() {
