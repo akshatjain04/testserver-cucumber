@@ -1,6 +1,8 @@
 package com.smartbear.readyapi.testserver.cucumber;
 
 import com.google.common.collect.Lists;
+import com.google.common.io.Files;
+import com.smartbear.readyapi.client.ExecutionListener;
 import com.smartbear.readyapi.client.TestRecipe;
 import com.smartbear.readyapi.client.execution.Execution;
 import com.smartbear.readyapi.client.execution.RecipeExecutor;
@@ -14,6 +16,8 @@ import com.smartbear.readyapi.client.model.TestStep;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
@@ -32,9 +36,7 @@ public class CucumberRecipeExecutor {
     private static final String DEFAULT_TESTSERVER_USER = "demoUser";
     private static final String DEFAULT_TESTSERVER_PASSWORD = "demoPassword";
 
-    private List<TestStep> testSteps = Lists.newArrayList();
     private RecipeExecutor executor;
-    private TestRecipe testRecipe;
 
     public CucumberRecipeExecutor() throws MalformedURLException {
         Map<String, String> env = System.getenv();
@@ -53,68 +55,31 @@ public class CucumberRecipeExecutor {
         executor.setCredentials( user, password );
     }
 
-    public Execution runTestCase() {
-        if( !testSteps.isEmpty() ) {
+    public Execution runTestCase(TestCase testCase) {
 
-            TestCase testCase = new TestCase();
-            testCase.setFailTestCaseOnError(true);
-            testCase.setTestSteps( testSteps );
+        TestRecipe testRecipe = new TestRecipe(testCase);
 
-            testRecipe = new TestRecipe(testCase);
-
-            if( System.getProperty("testserver.debug") != null ){
-                LOG.debug( testRecipe.toString());
-            }
-
-            Execution execution = executor.executeRecipe(testRecipe);
-
-            assertEquals(Arrays.toString(execution.getErrorMessages().toArray()),
-                ProjectResultReport.StatusEnum.FINISHED, execution.getCurrentStatus());
-
-            return execution;
+        if( LOG.isDebugEnabled() ){
+            LOG.debug( testRecipe.toString());
         }
 
-        return null;
+        Execution execution = executor.executeRecipe(testRecipe);
+
+        assertEquals(Arrays.toString(execution.getErrorMessages().toArray()),
+            ProjectResultReport.StatusEnum.FINISHED, execution.getCurrentStatus());
+
+        return execution;
     }
 
-    public TestRecipe getTestRecipe() {
-        return testRecipe;
+    public void addExecutionListener(ExecutionListener listener) {
+        executor.addExecutionListener(listener);
+    }
+
+    public void removeExecutionListener(ExecutionListener listener) {
+        executor.removeExecutionListener(listener);
     }
 
     public RecipeExecutor getExecutor() {
         return executor;
-    }
-
-    public <T extends TestStep> T addTestStep(T testStep) {
-        testSteps.add(testStep);
-        return testStep;
-    }
-
-    public TestStep getLastTestStep() {
-        return testSteps.isEmpty() ? null : testSteps.get(0);
-    }
-
-    @Deprecated
-    public void setAssertions(List<Assertion> assertions) {
-        addAssertions( assertions );
-    }
-
-    public void addAssertions(List<Assertion> assertions) {
-        TestStep testStep = getLastTestStep();
-        if( testStep instanceof  RestTestRequestStep ){
-            ((RestTestRequestStep)testStep).setAssertions( assertions );
-        }
-    }
-
-    public void setParameters(List<RestParameter> parameters) {
-        TestStep testStep = getLastTestStep();
-        if( testStep instanceof  RestTestRequestStep ){
-            ((RestTestRequestStep)testStep).setParameters( parameters );
-        }
-    }
-
-    @Deprecated
-    public <T extends TestStep> T setTestStep(T testStep) {
-        return addTestStep( testStep );
     }
 }
