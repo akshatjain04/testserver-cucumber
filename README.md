@@ -91,6 +91,11 @@ docker run -v /Users/Ole/cucumber:/features smartbear/cucumber4apis -p pretty /f
 Here I mounted my local folder containing feature files into a volume named "/features" in the container - and then 
 specify that that volume as the source for feature files for the Cucumber Runner (together with the -p pretty argument).
 
+### Recipe logging
+
+If you add a -Dtestserver.cucumber.logfolder system property to your command-line invocation the runner will write 
+generated json recipe files to the specified folder before sending them to the TestServer, for example allowing you 
+to use them for further testing in Ready API.
 
 ### Configuring Ready! API TestServer access
  
@@ -262,6 +267,56 @@ Feature: SwaggerHub REST API
     | swagger-hub | registry-api | 1.0.10   | The registry API for SwaggerHub   |
     | fehguy      | sonos-api    | 1.0.0    | A REST API for the Sonos platform |
 ```
+
+## Extending the vocabulary
+
+You can extend the supported Gherkin vocabulary by providing custom StepDefs that tie into the underlying TestServer
+recipe generation. Do this as follows:
+ 
+1. Create a Custom StepDefs class which you annotate with @ScenarioScoped
+2. Create a Constructor into which you inject an instance of CucumberRecipeBuilder
+3. Implement your Given/When/Then/And methods to build TestSteps and add them to the builder
+ 
+Internally the actual recipe gets created and sent to the TestServer first in a Cucumber @After handler. 
+
+If you want to delegate some of your custom vocabulary to the existing RestStepDefs you can inject them 
+into your custom StepDefs constructor also and then use it as needed.
+
+The below class shows all the above concepts:
+
+```java
+package com.smartbear.samples.cucumber.extension;
+
+import com.smartbear.readyapi.testserver.cucumber.CucumberRecipeBuilder;
+import com.smartbear.readyapi.testserver.cucumber.RestStepDefs;
+import cucumber.api.java.en.Given;
+import cucumber.runtime.java.guice.ScenarioScoped;
+
+import javax.inject.Inject;
+
+@ScenarioScoped
+public class CustomStepDefs {
+
+    private final CucumberRecipeBuilder recipeBuilder;
+    private final RestStepDefs restStepDefs;
+
+    @Inject
+    public CustomStepDefs(CucumberRecipeBuilder recipeBuilder, RestStepDefs restStepDefs ){
+        this.recipeBuilder = recipeBuilder;
+        this.restStepDefs = restStepDefs;
+    }
+
+    /**
+     * Provide an alternative vocabulary for specifying an API endpoint
+     */
+
+    @Given("^an endpoint of (.*)$")
+    public void anEndpointOf( String endpoint ) throws Throwable {
+        restStepDefs.setEndpoint( endpoint );
+    }
+}
+```
+
 
 ## What's next?
 
