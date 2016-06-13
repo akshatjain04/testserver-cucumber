@@ -104,6 +104,10 @@ public class CucumberRecipeExecutor {
 
             File scenarioFile = new File( scenarioFolder, filename );
             FileWriter writer = new FileWriter( scenarioFile );
+
+            LOG.info("Writing recipe to " + folder.getName() + File.separatorChar + scenarioFolder.getName() +
+                File.separatorChar + scenarioFile.getName());
+
             writer.write( testRecipe.toString() );
             writer.close();
         } catch (Exception e) {

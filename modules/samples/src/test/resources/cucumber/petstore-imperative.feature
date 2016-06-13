@@ -2,7 +2,8 @@ Feature: Petstore API
 
   Scenario: Find pet by status
     Given the API running at http://petstore.swagger.io/v2
-    When a GET request to /pet/findByStatus is made
+    And an endpoint of http://petstore.swagger.io/v2/pet/findByStatus
+    When a GET request is made
     And the status parameter is test
     And the Accepts header is application/json
     Then a 200 response is returned within 50ms

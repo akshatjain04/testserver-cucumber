@@ -32,9 +32,9 @@ public class RestStepDefs {
 
     private final CucumberRecipeBuilder builder;
 
-    private String endpoint;
-    private String method;
-    private String path;
+    private String endpoint = "";
+    private String method = "GET";
+    private String path = "";
     private String requestBody;
     private String token;
     private String mediaType;
@@ -47,11 +47,6 @@ public class RestStepDefs {
     @Inject
     public RestStepDefs(CucumberRecipeBuilder recipeBuilder) {
         this.builder = recipeBuilder;
-    }
-
-    @Given("^an endpoint of (.*)$")
-    public void anEndpointOf( String endpoint ) throws Throwable {
-        this.endpoint = endpoint;
     }
 
     @Given("^the oAuth2 token (.*)$")
@@ -114,7 +109,8 @@ public class RestStepDefs {
     @Given("^the (.*) parameter is (.*)$")
     public void theParameterIs(String name, String value) throws Throwable {
 
-        RestParameter.TypeEnum type = path.contains("{" + name + "}") ? RestParameter.TypeEnum.PATH :
+        RestParameter.TypeEnum type = (endpoint+path).contains("{" + name + "}") ?
+            RestParameter.TypeEnum.PATH :
             RestParameter.TypeEnum.QUERY;
         parameters.add( Parameters.buildParameter(type, name, value));
     }
