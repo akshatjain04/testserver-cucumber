@@ -1,30 +1,36 @@
 package com.smartbear.readyapi.testserver.cucumber;
 
-import com.google.common.collect.Lists;
+import com.smartbear.readyapi.client.ExecutionListener;
 import com.smartbear.readyapi.client.TestRecipe;
 import com.smartbear.readyapi.client.execution.Execution;
 import com.smartbear.readyapi.client.execution.RecipeExecutor;
 import com.smartbear.readyapi.client.execution.Scheme;
-import com.smartbear.readyapi.client.model.Assertion;
 import com.smartbear.readyapi.client.model.ProjectResultReport;
-import com.smartbear.readyapi.client.model.RestParameter;
-import com.smartbear.readyapi.client.model.RestTestRequestStep;
 import com.smartbear.readyapi.client.model.TestCase;
-import com.smartbear.readyapi.client.model.TestStep;
+import cucumber.api.Scenario;
+import io.swagger.util.Json;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Executes a TestServer Recipe class using the TestServer endpoint specified
+ * in the testserver.endpoint system property (defaults to the public
+ * TestServer instance).
+ */
+
 public class CucumberRecipeExecutor {
 
-    private final static Logger LOG = LoggerFactory.getLogger( CucumberRecipeExecutor.class );
+    private final static Logger LOG = LoggerFactory.getLogger(CucumberRecipeExecutor.class);
     private static final String TESTSERVER_ENDPOINT = "testserver.endpoint";
     private static final String TESTSERVER_USER = "testserver.user";
     private static final String TESTSERVER_PASSWORD = "testserver.password";
@@ -32,89 +38,155 @@ public class CucumberRecipeExecutor {
     private static final String DEFAULT_TESTSERVER_USER = "demoUser";
     private static final String DEFAULT_TESTSERVER_PASSWORD = "demoPassword";
 
-    private List<TestStep> testSteps = Lists.newArrayList();
     private RecipeExecutor executor;
-    private TestRecipe testRecipe;
+    private boolean async = false;
 
     public CucumberRecipeExecutor() throws MalformedURLException {
         Map<String, String> env = System.getenv();
-        URL url = new URL( env.getOrDefault( TESTSERVER_ENDPOINT,
+        URL url = new URL(env.getOrDefault(TESTSERVER_ENDPOINT,
             System.getProperty(TESTSERVER_ENDPOINT, DEFAULT_TESTSERVER_ENDPOINT)));
 
-        executor = new RecipeExecutor( Scheme.valueOf(url.getProtocol().toUpperCase()),
+        executor = new RecipeExecutor(Scheme.valueOf(url.getProtocol().toUpperCase()),
             url.getHost(), url.getPort());
 
-        String user = env.getOrDefault( TESTSERVER_USER,
+        String user = env.getOrDefault(TESTSERVER_USER,
             System.getProperty(TESTSERVER_USER, DEFAULT_TESTSERVER_USER));
 
         String password = env.getOrDefault(TESTSERVER_PASSWORD,
             System.getProperty(TESTSERVER_PASSWORD, DEFAULT_TESTSERVER_PASSWORD));
 
-        executor.setCredentials( user, password );
+        executor.setCredentials(user, password);
     }
 
-    public Execution runTestCase() {
-        if( !testSteps.isEmpty() ) {
+    /**
+     * Executes the specified TestCase and returns the Execution. If a scenario
+     * is specified and the testserver.cucumber.logfolder system property is set,
+     * the generated recipe will be written to the specified folder.
+     *
+     * It is possible to temporarily "bypass" recipe execution by specifying
+     * a testserver.cucumber.silent property - in which case testcases will not be
+     * submitted to the server, but still logged to the above folder.
+     *
+     * @param testCase the TestCase to execute
+     * @param scenario the Cucumber scenario used to generate the specified Recipe
+     * @return the TestServer Execution for the executed TestCase
+     * @throws com.smartbear.readyapi.client.execution.ApiException if recipe execution failes
+     */
 
-            TestCase testCase = new TestCase();
-            testCase.setFailTestCaseOnError(true);
-            testCase.setTestSteps( testSteps );
+    public Execution runTestCase(TestCase testCase, Scenario scenario) {
 
-            testRecipe = new TestRecipe(testCase);
+        TestRecipe testRecipe = new TestRecipe(testCase);
 
-            if( System.getProperty("testserver.debug") != null ){
-                LOG.debug( testRecipe.toString());
-            }
-
-            Execution execution = executor.executeRecipe(testRecipe);
-
-            assertEquals(Arrays.toString(execution.getErrorMessages().toArray()),
-                ProjectResultReport.StatusEnum.FINISHED, execution.getCurrentStatus());
-
-            return execution;
+        if (LOG.isDebugEnabled()) {
+            LOG.debug(testRecipe.toString());
         }
 
-        return null;
+        String logFolder = System.getProperty( "testserver.cucumber.logfolder", null );
+        if( scenario != null && logFolder != null ){
+            logScenarioToFile(testRecipe, scenario, logFolder);
+        }
+
+        return async ? executor.submitRecipe( testRecipe ) : executor.executeRecipe(testRecipe);
     }
 
-    public TestRecipe getTestRecipe() {
-        return testRecipe;
+    /**
+     * Writes the specified testRecipe to a folder/file name deducted from the
+     * specified scenario
+     *
+     * @param testRecipe the test recipe to log
+     * @param scenario the associated Cucumber scenario
+     * @param logFolder the root folder for generated folders and files
+     */
+
+    protected void logScenarioToFile(TestRecipe testRecipe, Scenario scenario, String logFolder) {
+        try {
+            File folder = new File( logFolder );
+            if( !folder.exists() || !folder.isDirectory()){
+                folder.mkdirs();
+            }
+
+            String[] pathSegments = scenario.getId().split(";");
+            File scenarioFolder = folder;
+            int fileIndex = 0;
+
+            if( pathSegments.length > 1 ) {
+                scenarioFolder = new File(folder, pathSegments[0]);
+                if (scenarioFolder.exists() || !scenarioFolder.isDirectory()) {
+                    scenarioFolder.mkdirs();
+                }
+
+                fileIndex = 1;
+            }
+
+            String filename = pathSegments[fileIndex];
+            for( int c = fileIndex+1; c < pathSegments.length; c++ ){
+                String segment = pathSegments[c].trim();
+                if( !StringUtils.isBlank( segment )){
+                    filename += "_" + segment;
+                }
+            }
+
+            filename += ".json";
+
+            File scenarioFile = new File( scenarioFolder, filename );
+            FileWriter writer = new FileWriter( scenarioFile );
+
+            LOG.info("Writing recipe to " + folder.getName() + File.separatorChar + scenarioFolder.getName() +
+                File.separatorChar + scenarioFile.getName());
+
+            writer.write( Json.pretty(testRecipe) );
+            writer.close();
+        } catch (Exception e) {
+            LOG.error("Failed to write recipe to logFolder [" + logFolder + "]", e );
+        }
     }
+
+    /**
+     * Adds a listener for test execution events
+     *
+     * @param listener the listener to add
+     */
+
+    public void addExecutionListener(ExecutionListener listener) {
+        executor.addExecutionListener(listener);
+    }
+
+    /**
+     * Removes a previously added listener for test execution events
+     *
+     * @param listener the listener to remove
+     */
+
+    public void removeExecutionListener(ExecutionListener listener) {
+        executor.removeExecutionListener(listener);
+    }
+
+    /**
+     * Get the underlying RecipeExecutor used to execute the generated recipes.
+     *
+     * @return the underlying RecipeExecutor
+     */
 
     public RecipeExecutor getExecutor() {
         return executor;
     }
 
-    public <T extends TestStep> T addTestStep(T testStep) {
-        testSteps.add(testStep);
-        return testStep;
+    /**
+     * Tells is execution of recipes will be async
+     *
+     * @return execution mode
+     */
+
+    public boolean isAsync() {
+        return async;
     }
 
-    public TestStep getLastTestStep() {
-        return testSteps.isEmpty() ? null : testSteps.get(0);
-    }
-
-    @Deprecated
-    public void setAssertions(List<Assertion> assertions) {
-        addAssertions( assertions );
-    }
-
-    public void addAssertions(List<Assertion> assertions) {
-        TestStep testStep = getLastTestStep();
-        if( testStep instanceof  RestTestRequestStep ){
-            ((RestTestRequestStep)testStep).setAssertions( assertions );
-        }
-    }
-
-    public void setParameters(List<RestParameter> parameters) {
-        TestStep testStep = getLastTestStep();
-        if( testStep instanceof  RestTestRequestStep ){
-            ((RestTestRequestStep)testStep).setParameters( parameters );
-        }
-    }
-
-    @Deprecated
-    public <T extends TestStep> T setTestStep(T testStep) {
-        return addTestStep( testStep );
+    /**
+     * Sets if recipe execution will be async
+     *
+     * @param async execution mode
+     */
+    public void setAsync(boolean async) {
+        this.async = async;
     }
 }

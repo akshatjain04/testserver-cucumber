@@ -91,6 +91,11 @@ docker run -v /Users/Ole/cucumber:/features smartbear/cucumber4apis -p pretty /f
 Here I mounted my local folder containing feature files into a volume named "/features" in the container - and then 
 specify that that volume as the source for feature files for the Cucumber Runner (together with the -p pretty argument).
 
+### Recipe logging
+
+If you add a `-Dtestserver.cucumber.logfolder=...` system property to your command line invocation the runner will write 
+generated json recipe files to the specified folder before sending them to the TestServer, for example allowing you 
+to import them into Ready API for load-testing/monitoring/etc.
 
 ### Configuring Ready! API TestServer access
  
@@ -261,6 +266,73 @@ Feature: SwaggerHub REST API
     | owner       | api          | version  | description                       |
     | swagger-hub | registry-api | 1.0.10   | The registry API for SwaggerHub   |
     | fehguy      | sonos-api    | 1.0.0    | A REST API for the Sonos platform |
+```
+
+## Extending the vocabulary
+
+You can extend the supported Gherkin vocabulary by providing custom StepDefs that tie into the underlying TestServer
+recipe generation. Do this as follows (a complete example is shown below):
+ 
+1. Create a Custom StepDefs class which you annotate with @ScenarioScoped
+2. Create a Constructor into which you inject an instance of CucumberRecipeBuilder
+3. Implement your Given/When/Then/And methods to build TestSteps and add them to the builder provided to the constructor
+ 
+Internally the actual recipe gets created and sent to the TestServer first in a Cucumber @After handler 
+
+If you want to delegate some of your custom vocabulary to the existing RestStepDefs you can inject them 
+into your custom StepDefs constructor also and then use it as needed.
+
+Javadocs for related classes are available at [http://readyapi.github.io/testserver-cucumber/apidocs/](http://readyapi.github.io/testserver-cucumber/apidocs)
+
+The below class shows all the above concepts:
+
+```java
+package com.smartbear.samples.cucumber.extension;
+
+import com.smartbear.readyapi.testserver.cucumber.CucumberRecipeBuilder;
+import com.smartbear.readyapi.testserver.cucumber.RestStepDefs;
+import cucumber.api.java.en.Given;
+import cucumber.runtime.java.guice.ScenarioScoped;
+
+import javax.inject.Inject;
+
+@ScenarioScoped
+public class CustomStepDefs {
+
+    private final CucumberRecipeBuilder recipeBuilder;
+    private final RestStepDefs restStepDefs;
+
+    @Inject
+    public CustomStepDefs(CucumberRecipeBuilder recipeBuilder, RestStepDefs restStepDefs ){
+        this.recipeBuilder = recipeBuilder;
+        this.restStepDefs = restStepDefs;
+    }
+
+    /**
+     * Provide an alternative vocabulary for specifying an API endpoint
+     */
+
+    @Given("^an endpoint of (.*)$")
+    public void anEndpointOf( String endpoint ) throws Throwable {
+        restStepDefs.setEndpoint( endpoint );
+    }
+}
+```
+
+To get this used during execution you will need to
+
+1. Compile the above into a jar file
+2. Include the jar file in the classpath for the TestServer Cucumber runner
+3. Add the containing package(s) of your StepDefs with the -g argument
+
+For example (line-breaks and comments added for readability):
+
+```
+java -cp modules/samples/target/testserver-cucumber-samples-1.0.1-SNAPSHOT.jar: // the extension jar
+   modules/runner/target/testserver-cucumber-runner-1.0.1-SNAPSHOT.jar          // the runner jar  
+   com.smartbear.readyapi.testserver.cucumber.CucumberRunner                    // the runner class 
+   -g com.smartbear.samples.cucumber.extension                                  // the extension package 
+   modules/samples/src/test/resources/cucumber                                  // the features folder
 ```
 
 ## What's next?
