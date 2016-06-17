@@ -282,6 +282,8 @@ Internally the actual recipe gets created and sent to the TestServer first in a 
 If you want to delegate some of your custom vocabulary to the existing RestStepDefs you can inject them 
 into your custom StepDefs constructor also and then use it as needed.
 
+Javadocs for related classes are available at [http://readyapi.github.io/testserver-cucumber/apidocs/](http://readyapi.github.io/testserver-cucumber/apidocs)
+
 The below class shows all the above concepts:
 
 ```java
