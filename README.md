@@ -323,14 +323,14 @@ To get this used during execution you will need to
 2. Include the jar file in the classpath for the TestServer Cucumber runner
 3. Add the containing package(s) of your StepDefs with the -g argument
 
-For example (line breaks added for readability):
+For example (line-breaks and comments added for readability):
 
 ```
-java -cp modules/samples/target/testserver-cucumber-samples-1.0.1-SNAPSHOT.jar:
-   modules/runner/target/testserver-cucumber-runner-1.0.1-SNAPSHOT.jar 
-   com.smartbear.readyapi.testserver.cucumber.CucumberRunner 
-   -g com.smartbear.samples.cucumber.extension 
-   modules/samples/src/test/resources/cucumber
+java -cp modules/samples/target/testserver-cucumber-samples-1.0.1-SNAPSHOT.jar: // the extension jar
+   modules/runner/target/testserver-cucumber-runner-1.0.1-SNAPSHOT.jar          // the runner jar  
+   com.smartbear.readyapi.testserver.cucumber.CucumberRunner                    // the runner class 
+   -g com.smartbear.samples.cucumber.extension                                  // the extension package 
+   modules/samples/src/test/resources/cucumber                                  // the features folder
 ```
 
 ## What's next?
