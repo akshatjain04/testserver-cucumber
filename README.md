@@ -95,7 +95,7 @@ specify that that volume as the source for feature files for the Cucumber Runner
 
 If you add a -Dtestserver.cucumber.logfolder system property to your command-line invocation the runner will write 
 generated json recipe files to the specified folder before sending them to the TestServer, for example allowing you 
-to use them for further testing in Ready API.
+to import them into Ready API for load-testing/monitoring/etc.
 
 ### Configuring Ready! API TestServer access
  
