@@ -93,7 +93,7 @@ specify that that volume as the source for feature files for the Cucumber Runner
 
 ### Recipe logging
 
-If you add a -Dtestserver.cucumber.logfolder system property to your command-line invocation the runner will write 
+If you add a `-Dtestserver.cucumber.logfolder=...` system property to your command line invocation the runner will write 
 generated json recipe files to the specified folder before sending them to the TestServer, for example allowing you 
 to import them into Ready API for load-testing/monitoring/etc.
 
