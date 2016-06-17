@@ -271,7 +271,7 @@ Feature: SwaggerHub REST API
 ## Extending the vocabulary
 
 You can extend the supported Gherkin vocabulary by providing custom StepDefs that tie into the underlying TestServer
-recipe generation. Do this as follows:
+recipe generation. Do this as follows (a complete example is shown below):
  
 1. Create a Custom StepDefs class which you annotate with @ScenarioScoped
 2. Create a Constructor into which you inject an instance of CucumberRecipeBuilder
