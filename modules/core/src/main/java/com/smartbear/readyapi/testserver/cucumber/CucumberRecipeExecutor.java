@@ -8,6 +8,7 @@ import com.smartbear.readyapi.client.execution.Scheme;
 import com.smartbear.readyapi.client.model.ProjectResultReport;
 import com.smartbear.readyapi.client.model.TestCase;
 import cucumber.api.Scenario;
+import io.swagger.util.Json;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -108,7 +109,7 @@ public class CucumberRecipeExecutor {
             LOG.info("Writing recipe to " + folder.getName() + File.separatorChar + scenarioFolder.getName() +
                 File.separatorChar + scenarioFile.getName());
 
-            writer.write( testRecipe.toString() );
+            writer.write( Json.pretty(testRecipe) );
             writer.close();
         } catch (Exception e) {
             LOG.error("Failed to write recipe to logFolder [" + logFolder + "]", e );
