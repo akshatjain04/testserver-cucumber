@@ -131,14 +131,14 @@ The included glue-code for API testing adds the following vocabulary:
 
 ##### Given statements
 
-- "the Swagger definition at &lt;swagger endpoint&gt;"
+- `the Swagger definition at &lt;swagger endpoint&gt;`
     - The specified endpoint must reference a valid Swagger 2.0 definition
     - Example: "the Swagger definition at http://petstore.swagger.io/v2/swagger.json"
 
-- "the API running at &lt;API endpoint&gt;"
+- `the API running at &lt;API endpoint&gt;`
     - Example: "the API running at http://petstore.swagger.io/v2"
 
-- "the oAuth2 token &lt;token&gt;"
+- `the oAuth2 token &lt;token&gt;`
     - Example: "the oAuth2 token 18273827aefef123"
     - Adds an OAuth 2.0 Bearer token to requests
 
