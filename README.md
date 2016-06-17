@@ -275,9 +275,9 @@ recipe generation. Do this as follows (a complete example is shown below):
  
 1. Create a Custom StepDefs class which you annotate with @ScenarioScoped
 2. Create a Constructor into which you inject an instance of CucumberRecipeBuilder
-3. Implement your Given/When/Then/And methods to build TestSteps and add them to the builder
+3. Implement your Given/When/Then/And methods to build TestSteps and add them to the builder provided to the constructor
  
-Internally the actual recipe gets created and sent to the TestServer first in a Cucumber @After handler. 
+Internally the actual recipe gets created and sent to the TestServer first in a Cucumber @After handler 
 
 If you want to delegate some of your custom vocabulary to the existing RestStepDefs you can inject them 
 into your custom StepDefs constructor also and then use it as needed.
