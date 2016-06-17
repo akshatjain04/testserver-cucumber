@@ -7,6 +7,10 @@ import io.swagger.parser.SwaggerParser;
 import javax.inject.Singleton;
 import java.util.Map;
 
+/**
+ * Utility class for loading and caching Swagger definitions
+ */
+
 @Singleton
 public class SwaggerCache {
 

@@ -25,6 +25,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Generic StepDefs for REST API Testing
+ */
+
 @ScenarioScoped
 public class RestStepDefs {
 
@@ -127,7 +131,7 @@ public class RestStepDefs {
 
     @Given("^the request expects (.*)")
     public void theRequestExpects(String format) throws Throwable {
-        theHeaderIs("Accept", Support.expandFormat( format ));
+        theHeaderIs("Accept", Support.expandContentType( format ));
     }
 
     @Then("^the response type is (.*)$")

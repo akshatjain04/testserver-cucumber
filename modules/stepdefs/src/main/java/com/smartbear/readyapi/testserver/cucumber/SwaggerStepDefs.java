@@ -18,6 +18,10 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 
+/**
+ * Additional StepDefs for simplifying testing of Swagger-defined REST APIs
+ */
+
 @ScenarioScoped
 public class SwaggerStepDefs {
 

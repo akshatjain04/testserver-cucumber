@@ -7,6 +7,10 @@ import cucumber.runtime.java.guice.ScenarioScoped;
 
 import javax.inject.Inject;
 
+/**
+ * Sample custom StepDef that adds an alternative way of specifying API endpoints
+ */
+
 @ScenarioScoped
 public class CustomStepDefs {
 

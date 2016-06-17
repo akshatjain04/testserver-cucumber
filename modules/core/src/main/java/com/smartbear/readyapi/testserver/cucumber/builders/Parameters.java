@@ -2,6 +2,10 @@ package com.smartbear.readyapi.testserver.cucumber.builders;
 
 import com.smartbear.readyapi.client.model.RestParameter;
 
+/**
+ * Utility class with static method for building various types of REST Parameters
+ */
+
 public class Parameters {
     public static RestParameter buildParameter(RestParameter.TypeEnum type, String name, String value) {
         RestParameter parameter = new RestParameter();

@@ -7,6 +7,10 @@ import com.smartbear.readyapi.client.model.ValidHttpStatusCodesAssertion;
 
 import java.util.List;
 
+/**
+ * Utility class with static method for building various types of assertions
+ */
+
 public class Assertions {
     public static ValidHttpStatusCodesAssertion validStatusCodes(List<Integer> statusCodes ){
         ValidHttpStatusCodesAssertion httpStatusCodesAssertion = new ValidHttpStatusCodesAssertion();
@@ -42,7 +46,7 @@ public class Assertions {
         GroovyScriptAssertion scriptAssertion = new GroovyScriptAssertion();
         scriptAssertion.setType("Script Assertion");
         scriptAssertion.setScript(
-            "assert messageExchange.responseHeaders[\"Content-Type\"].contains( \"" + Support.expandFormat(format) + "\")");
+            "assert messageExchange.responseHeaders[\"Content-Type\"].contains( \"" + Support.expandContentType(format) + "\")");
         return scriptAssertion;
     }
 

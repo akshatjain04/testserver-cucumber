@@ -4,6 +4,10 @@ import com.smartbear.readyapi.client.model.RestTestRequestStep;
 import com.smartbear.readyapi.client.model.SoapRequestTestStep;
 import com.smartbear.readyapi.client.teststeps.TestStepTypes;
 
+/**
+ * Utility class with static method for building various types of TestSteps
+ */
+
 public class TestSteps {
 
     public static RestTestRequestStep restRequest( String method, String endpoint ){

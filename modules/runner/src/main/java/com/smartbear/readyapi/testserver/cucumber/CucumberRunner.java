@@ -5,9 +5,21 @@ import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Custom Cucumber Runner that adds the built in StepDefs to the invocation of
+ * the cucumber.api.cli.Main class
+ */
+
 public class CucumberRunner {
 
     private static final String STEPDEFS_PACKAGE = "com.smartbear.readyapi.testserver.cucumber";
+
+    /**
+     * Invokes the Cucumber CLI with the internal StepDefs package
+     *
+     * @param args command line arguments
+     * @throws Throwable
+     */
 
     public static void main(String [] args) throws Throwable {
         System.out.println( "Ready! API TestServer Cucumber Runner" );

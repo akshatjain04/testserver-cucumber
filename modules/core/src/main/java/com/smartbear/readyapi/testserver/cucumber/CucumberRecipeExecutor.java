@@ -15,13 +15,18 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+
+/**
+ * Executes a TestServer Recipe class using the TestServer endpoint specified
+ * in the testserver.endpoint system property (defaults to the public
+ * TestServer instance).
+ */
 
 public class CucumberRecipeExecutor {
 
@@ -34,6 +39,7 @@ public class CucumberRecipeExecutor {
     private static final String DEFAULT_TESTSERVER_PASSWORD = "demoPassword";
 
     private RecipeExecutor executor;
+    private boolean async = false;
 
     public CucumberRecipeExecutor() throws MalformedURLException {
         Map<String, String> env = System.getenv();
@@ -52,6 +58,21 @@ public class CucumberRecipeExecutor {
         executor.setCredentials(user, password);
     }
 
+    /**
+     * Executes the specified TestCase and returns the Execution. If a scenario
+     * is specified and the testserver.cucumber.logfolder system property is set,
+     * the generated recipe will be written to the specified folder.
+     *
+     * It is possible to temporarily "bypass" recipe execution by specifying
+     * a testserver.cucumber.silent property - in which case testcases will not be
+     * submitted to the server, but still logged to the above folder.
+     *
+     * @param testCase the TestCase to execute
+     * @param scenario the Cucumber scenario used to generate the specified Recipe
+     * @return the TestServer Execution for the executed TestCase
+     * @throws com.smartbear.readyapi.client.execution.ApiException if recipe execution failes
+     */
+
     public Execution runTestCase(TestCase testCase, Scenario scenario) {
 
         TestRecipe testRecipe = new TestRecipe(testCase);
@@ -61,19 +82,23 @@ public class CucumberRecipeExecutor {
         }
 
         String logFolder = System.getProperty( "testserver.cucumber.logfolder", null );
-        if( logFolder != null ){
-            logScenarioToFile(scenario, testRecipe, logFolder);
+        if( scenario != null && logFolder != null ){
+            logScenarioToFile(testRecipe, scenario, logFolder);
         }
 
-        Execution execution = executor.executeRecipe(testRecipe);
-
-        assertEquals(Arrays.toString(execution.getErrorMessages().toArray()),
-            ProjectResultReport.StatusEnum.FINISHED, execution.getCurrentStatus());
-
-        return execution;
+        return async ? executor.submitRecipe( testRecipe ) : executor.executeRecipe(testRecipe);
     }
 
-    private void logScenarioToFile(Scenario scenario, TestRecipe testRecipe, String logFolder) {
+    /**
+     * Writes the specified testRecipe to a folder/file name deducted from the
+     * specified scenario
+     *
+     * @param testRecipe the test recipe to log
+     * @param scenario the associated Cucumber scenario
+     * @param logFolder the root folder for generated folders and files
+     */
+
+    protected void logScenarioToFile(TestRecipe testRecipe, Scenario scenario, String logFolder) {
         try {
             File folder = new File( logFolder );
             if( !folder.exists() || !folder.isDirectory()){
@@ -116,15 +141,52 @@ public class CucumberRecipeExecutor {
         }
     }
 
+    /**
+     * Adds a listener for test execution events
+     *
+     * @param listener the listener to add
+     */
+
     public void addExecutionListener(ExecutionListener listener) {
         executor.addExecutionListener(listener);
     }
+
+    /**
+     * Removes a previously added listener for test execution events
+     *
+     * @param listener the listener to remove
+     */
 
     public void removeExecutionListener(ExecutionListener listener) {
         executor.removeExecutionListener(listener);
     }
 
+    /**
+     * Get the underlying RecipeExecutor used to execute the generated recipes.
+     *
+     * @return the underlying RecipeExecutor
+     */
+
     public RecipeExecutor getExecutor() {
         return executor;
+    }
+
+    /**
+     * Tells is execution of recipes will be async
+     *
+     * @return execution mode
+     */
+
+    public boolean isAsync() {
+        return async;
+    }
+
+    /**
+     * Sets if recipe execution will be async
+     *
+     * @param async execution mode
+     */
+    public void setAsync(boolean async) {
+        this.async = async;
     }
 }
