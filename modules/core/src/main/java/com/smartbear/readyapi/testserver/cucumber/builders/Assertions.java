@@ -1,9 +1,12 @@
 package com.smartbear.readyapi.testserver.cucumber.builders;
 
 import com.smartbear.readyapi.client.model.GroovyScriptAssertion;
+import com.smartbear.readyapi.client.model.JsonPathContentAssertion;
+import com.smartbear.readyapi.client.model.RequestTestStepBase;
 import com.smartbear.readyapi.client.model.ResponseSLAAssertion;
 import com.smartbear.readyapi.client.model.SimpleContainsAssertion;
 import com.smartbear.readyapi.client.model.ValidHttpStatusCodesAssertion;
+import com.smartbear.readyapi.client.model.XPathContainsAssertion;
 
 import java.util.List;
 
@@ -12,11 +15,22 @@ import java.util.List;
  */
 
 public class Assertions {
+
+    public static <T extends RequestTestStepBase> T assertStatusCodeEquals(T testStep, List<Integer> statusCodes ){
+        testStep.getAssertions().add( validStatusCodes( statusCodes ));
+        return testStep;
+    }
+
     public static ValidHttpStatusCodesAssertion validStatusCodes(List<Integer> statusCodes ){
         ValidHttpStatusCodesAssertion httpStatusCodesAssertion = new ValidHttpStatusCodesAssertion();
         httpStatusCodesAssertion.setValidStatusCodes(statusCodes);
         httpStatusCodesAssertion.setType("Valid HTTP Status Codes");
         return httpStatusCodesAssertion;
+    }
+
+    public static <T extends RequestTestStepBase> T assertResponseTime(T testStep, int timeout ){
+        testStep.getAssertions().add( timeout( timeout ));
+        return testStep;
     }
 
     public static ResponseSLAAssertion timeout(int timeout) {
@@ -26,12 +40,22 @@ public class Assertions {
         return slaAssertion;
     }
 
-    public static SimpleContainsAssertion bodyContains(String responseBody) {
+    public static <T extends RequestTestStepBase> T assertContains(T testStep, String token ){
+        testStep.getAssertions().add( bodyContains( token ));
+        return testStep;
+    }
+
+    public static SimpleContainsAssertion bodyContains(String token) {
         SimpleContainsAssertion contentAssertion = new SimpleContainsAssertion();
-        contentAssertion.setToken(responseBody.trim());
+        contentAssertion.setToken(token.trim());
         contentAssertion.setType("Contains");
         contentAssertion.setIgnoreCase(true);
         return contentAssertion;
+    }
+
+    public static <T extends RequestTestStepBase> T assertMatches(T testStep, String token ){
+        testStep.getAssertions().add( bodyContains( token ));
+        return testStep;
     }
 
     public static SimpleContainsAssertion bodyMatches(String responseBodyRegEx) {
@@ -42,12 +66,22 @@ public class Assertions {
         return contentAssertion;
     }
 
-    public static GroovyScriptAssertion responseType(String format) {
+    public static <T extends RequestTestStepBase> T assertResponseType(T testStep, String contentType ){
+        testStep.getAssertions().add( responseType( contentType ));
+        return testStep;
+    }
+
+    public static GroovyScriptAssertion responseType(String contentType) {
         GroovyScriptAssertion scriptAssertion = new GroovyScriptAssertion();
         scriptAssertion.setType("Script Assertion");
         scriptAssertion.setScript(
-            "assert messageExchange.responseHeaders[\"Content-Type\"].contains( \"" + Support.expandContentType(format) + "\")");
+            "assert messageExchange.responseHeaders[\"Content-Type\"].contains( \"" + Support.expandContentType(contentType) + "\")");
         return scriptAssertion;
+    }
+
+    public static <T extends RequestTestStepBase> T assertHeaderExists(T testStep, String header ){
+        testStep.getAssertions().add( responseContainsHeader( header ));
+        return testStep;
     }
 
     public static GroovyScriptAssertion responseContainsHeader(String header) {
@@ -59,6 +93,11 @@ public class Assertions {
         return scriptAssertion;
     }
 
+    public static <T extends RequestTestStepBase> T assertHeaderValue(T testStep, String header, String value ){
+        testStep.getAssertions().add( responseHeader( header, value ));
+        return testStep;
+    }
+
     public static GroovyScriptAssertion responseHeader(String header, String value) {
         GroovyScriptAssertion scriptAssertion = new GroovyScriptAssertion();
         scriptAssertion.setType("Script Assertion");
@@ -68,4 +107,29 @@ public class Assertions {
         return scriptAssertion;
     }
 
+    public static <T extends RequestTestStepBase> T assertJsonValue(T testStep, String path, String value ){
+        testStep.getAssertions().add( jsonPathContent( path, value ));
+        return testStep;
+    }
+
+    public static JsonPathContentAssertion jsonPathContent( String path, String value ){
+        JsonPathContentAssertion assertion = new JsonPathContentAssertion();
+        assertion.setType( "JsonPath Match" );
+        assertion.setExpectedContent( value );
+        assertion.setJsonPath( path );
+        return assertion;
+    }
+
+    public static <T extends RequestTestStepBase> T assertXmlValue(T testStep, String xpath, String value ){
+        testStep.getAssertions().add( xpathContent( xpath, value ));
+        return testStep;
+    }
+
+    public static XPathContainsAssertion xpathContent(String xpath, String value ){
+        XPathContainsAssertion assertion = new XPathContainsAssertion();
+        assertion.setType( "XPath Match" );
+        assertion.setExpectedContent( value );
+        assertion.setXpath( xpath );
+        return assertion;
+    }
 }
