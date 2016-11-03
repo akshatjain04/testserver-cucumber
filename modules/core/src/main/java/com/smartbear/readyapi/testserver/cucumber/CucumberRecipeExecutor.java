@@ -4,8 +4,7 @@ import com.smartbear.readyapi.client.ExecutionListener;
 import com.smartbear.readyapi.client.TestRecipe;
 import com.smartbear.readyapi.client.execution.Execution;
 import com.smartbear.readyapi.client.execution.RecipeExecutor;
-import com.smartbear.readyapi.client.execution.Scheme;
-import com.smartbear.readyapi.client.model.ProjectResultReport;
+import com.smartbear.readyapi.client.execution.TestServerClient;
 import com.smartbear.readyapi.client.model.TestCase;
 import cucumber.api.Scenario;
 import io.swagger.util.Json;
@@ -17,10 +16,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * Executes a TestServer Recipe class using the TestServer endpoint specified
@@ -46,8 +42,7 @@ public class CucumberRecipeExecutor {
         URL url = new URL(env.getOrDefault(TESTSERVER_ENDPOINT,
             System.getProperty(TESTSERVER_ENDPOINT, DEFAULT_TESTSERVER_ENDPOINT)));
 
-        executor = new RecipeExecutor(Scheme.valueOf(url.getProtocol().toUpperCase()),
-            url.getHost(), url.getPort());
+        TestServerClient testServerClient = TestServerClient.fromUrl( url.toString() );
 
         String user = env.getOrDefault(TESTSERVER_USER,
             System.getProperty(TESTSERVER_USER, DEFAULT_TESTSERVER_USER));
@@ -55,7 +50,8 @@ public class CucumberRecipeExecutor {
         String password = env.getOrDefault(TESTSERVER_PASSWORD,
             System.getProperty(TESTSERVER_PASSWORD, DEFAULT_TESTSERVER_PASSWORD));
 
-        executor.setCredentials(user, password);
+        testServerClient.setCredentials(user, password);
+        executor = testServerClient.createRecipeExecutor();
     }
 
     /**

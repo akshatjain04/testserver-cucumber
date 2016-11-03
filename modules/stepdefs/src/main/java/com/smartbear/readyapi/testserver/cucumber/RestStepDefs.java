@@ -96,7 +96,7 @@ public class RestStepDefs {
             assertions.add( Assertions.timeout(timeout));
         }
 
-        addAssertion( Assertions.validStatusCodes(Collections.singletonList(statusCode)));
+        addAssertion( Assertions.validStatusCodes(Collections.singletonList(String.valueOf(statusCode))));
         pushRestRequest();
     }
 
