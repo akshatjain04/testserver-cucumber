@@ -16,12 +16,12 @@ import java.util.List;
 
 public class Assertions {
 
-    public static <T extends RequestTestStepBase> T assertStatusCodeEquals(T testStep, List<Integer> statusCodes ){
+    public static <T extends RequestTestStepBase> T assertStatusCodeEquals(T testStep, List<String> statusCodes ){
         testStep.getAssertions().add( validStatusCodes( statusCodes ));
         return testStep;
     }
 
-    public static ValidHttpStatusCodesAssertion validStatusCodes(List<Integer> statusCodes ){
+    public static ValidHttpStatusCodesAssertion validStatusCodes(List<String> statusCodes ){
         ValidHttpStatusCodesAssertion httpStatusCodesAssertion = new ValidHttpStatusCodesAssertion();
         httpStatusCodesAssertion.setValidStatusCodes(statusCodes);
         httpStatusCodesAssertion.setType("Valid HTTP Status Codes");
@@ -35,7 +35,7 @@ public class Assertions {
 
     public static ResponseSLAAssertion timeout(int timeout) {
         ResponseSLAAssertion slaAssertion = new ResponseSLAAssertion();
-        slaAssertion.setMaxResponseTime(timeout);
+        slaAssertion.setMaxResponseTime(String.valueOf(timeout));
         slaAssertion.setType("Response SLA");
         return slaAssertion;
     }
