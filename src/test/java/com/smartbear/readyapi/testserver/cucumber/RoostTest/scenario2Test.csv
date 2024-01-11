@@ -1,0 +1,2 @@
+METHOD^|^URL^|^REQ_HEADERS^|^REQ_BODY^|^RESPONSE_CODE^|^RESPONSE_BODY
+POST^|^http://petstore.swagger.io/v2/pet^|^{ "Content-Type": "application/json" }^|^{ "name": "doggies", "status": "available" }^|^200^|^{ "code": 200, "type": "unknown", "message": "Success" }

@@ -1,0 +1,2 @@
+METHOD^|^URL^|^REQ_HEADERS^|^REQ_BODY^|^RESPONSE_CODE^|^RESPONSE_BODY
+POST^|^http://petstore.swagger.io/v2/pet^|^write:pets, read:pets^|^{"name": "doggie", "status": "available"}^|^200^|^{"id": <id>}
