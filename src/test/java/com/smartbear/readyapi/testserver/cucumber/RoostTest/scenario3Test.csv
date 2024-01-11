@@ -1,0 +1,2 @@
+METHOD^|^URL^|^REQ_HEADERS^|^REQ_BODY^|^RESPONSE_CODE^|^RESPONSE_BODY
+POST^|^http://petstore.swagger.io/v2/pet/^|^write:pets,read:pets^|^{"id": "integer","name": "string","photoUrls": "array","photoUrls.0": "string","tags": "array","tags[0].id": "integer","tags[0].name": "string","status":"string"}^|^200^|^{"405": {"description": "Invalid input","headers": "No response headers"}}
