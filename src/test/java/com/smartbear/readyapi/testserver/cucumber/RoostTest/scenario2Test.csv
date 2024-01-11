@@ -1,0 +1,2 @@
+METHOD^|^URL^|^REQ_HEADERS^|^REQ_BODY^|^RESPONSE_CODE^|^RESPONSE_BODY
+POST^|^http://petstore.swagger.io/v2/pet^|^oauth2 with write:pets scope^|^{"name": "doggies","status": "available"}^|^200^|^Pet created successfully with name doggies and status available
